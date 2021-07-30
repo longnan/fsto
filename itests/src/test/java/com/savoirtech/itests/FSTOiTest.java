@@ -36,7 +36,7 @@ public class FSTOiTest {
     public static Option[] configuration() throws Exception {
         return new Option[] {
                 karafDistributionConfiguration().frameworkUrl(maven().groupId("org.apache.karaf").artifactId("apache-karaf")
-                        .type("tar.gz")).karafVersion("4.0.2")
+                        .type("tar.gz")).karafVersion("4.3.2")
                         .unpackDirectory(new File("target/exam"))
                         .useDeployFolder(false),
                 //configureConsole().ignoreLocalConsole(),
@@ -50,7 +50,7 @@ public class FSTOiTest {
                 features(
                         maven().groupId("org.apache.karaf.features")
                                 .artifactId("standard").type("xml")
-                                .classifier("features").version("4.0.2"),
+                                .classifier("features").version("4.3.2"),
                         "jndi"
                 )
         };

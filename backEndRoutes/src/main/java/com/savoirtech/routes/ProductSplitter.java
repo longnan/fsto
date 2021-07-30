@@ -21,6 +21,7 @@ import com.savoirtech.domain.Order;
 import com.savoirtech.domain.ProductOrder;
 import org.apache.camel.Message;
 import org.apache.camel.impl.DefaultMessage;
+import org.apache.camel.impl.DefaultCamelContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class ProductSplitter {
             po.setProduct(item.getProduct());
             po.setQuanitity(item.getQuantity());
 
-            DefaultMessage message = new DefaultMessage();
+            DefaultMessage message = new DefaultMessage(new DefaultCamelContext());
             message.setBody(po);
 
             //Set the header with the manufacturer

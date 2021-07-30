@@ -1,4 +1,4 @@
-# Full Stack Toronto 2015
+# Full Stack Toronto 2015 (maintained version by kxkl)
 Empowering MicroServices With Apache Karaf.
 
 This repository contains a demonstration of how Apache Karaf empowers Full Stack developers to design, develop, deploy micro service based architectues.
@@ -24,28 +24,29 @@ Conceptually, there are four main services deployed in our container: a RESTful 
 #Prerequisites:
 
 <pre><code>
-JDK 8
+JDK 11
 
 Maven 3.2+
 
-Apache Karaf 4.0.2
+Apache Karaf 4.3.2
 
-Alternatively, try Aetos 3.0+ for prepurposed Integration Container 
 </code></pre>
 
 
 #Installation:
 
-Start a Karaf 4.0.2 instance, and execute the following commands:
+Start a Karaf 4.3.2 instance, and execute the following commands:
 
 <pre><code>
-feature:repo-add mvn:com.savoirtech/feature/1.0.0-SNAPSHOT/xml/features
+feature:repo-add mvn:com.savoirtech/feature/1.0.0/xml/features
 
 feature:install fsto-deps
 
 feature:install fsto-application 
 
 </code></pre>
+
+Restart karaf (to effect custom.system.properties which installed by Feature Bundle)
 
 
 #Runtime:
@@ -174,7 +175,7 @@ Your payload should look something like this:
 
 You can copy and paste it from above or use the example.json in the root directory of this project.
 
-To see the results, the target directoy should have a manufacturers subdirectory in it.  That directory should have 2 additional sub direcorties in it, abc and xyz.  In those directories you will have file names in the format "order-yyyyMMddHHmmss.json".  These files and directories will appear after you successfully submit a properly formed json payload like the one shown above. The contents should look similar ot the following:
+To see the results, the target directoy (under Karaf root home folder) should have a manufacturers subdirectory in it.  That directory should have 2 additional sub direcorties in it, abc and xyz.  In those directories you will have file names in the format "order-yyyyMMddHHmmss.json".  These files and directories will appear after you successfully submit a properly formed json payload like the one shown above. The contents should look similar ot the following:
 
 <pre><code>
 {

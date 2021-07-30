@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                        http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.savoirtech</groupId>
         <artifactId>mircoservices</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>feature</artifactId>
@@ -18,60 +18,101 @@
     <description>FSTO Karaf Feature File</description>
 
     <build>
-    <defaultGoal>install</defaultGoal>
+        <defaultGoal>install</defaultGoal>
 
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <filtering>true</filtering>
-        </resource>
-    </resources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
-    <plugins>
+        <plugins>
+            <!-- <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>4.2.1</version>
+                <extensions>true</extensions>
+            </plugin> -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>conditional</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>target/classes/features.xml</file>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                </artifact>
+								<artifact>
+									<file>src/main/config/users.properties</file>
+									<classifier>config</classifier>
+									<type>cfg</type>
+								</artifact>
+                                <artifact>
+									<file>src/main/config/custom.system.properties</file>
+									<classifier>config-sys</classifier>
+									<type>cfg</type>
+								</artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.7</version>
-        <configuration>
-            <encoding>UTF-8</encoding>
-        </configuration>
-        <executions>
-            <execution>
-                <id>conditional</id>
-                <phase>generate-resources</phase>
-                <goals>
-                    <goal>resources</goal>
-                </goals>
-            </execution>
-        </executions>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <artifactId>karaf-maven-plugin</artifactId>
+                <version>${karaf.version}</version>
+                <executions>
+                    <execution>
+                        <id>features-add-to-repository</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>features-add-to-repository</goal>
+                        </goals>
 
-      <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.9.1</version>
-          <executions>
-              <execution>
-                  <id>attach-artifacts</id>
-                  <phase>package</phase>
-                  <goals>
-                      <goal>attach-artifact</goal>
-                  </goals>
-                  <configuration>
-                      <artifacts>
-                          <artifact>
-                              <file>target/classes/features.xml</file>
-                              <type>xml</type>
-                              <classifier>features</classifier>
-                          </artifact>
-                      </artifacts>
-                  </configuration>
-              </execution>
-          </executions>
-      </plugin>
-
-    </plugins>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
+                                <descriptor>file://${project.basedir}/target/classes/features.xml</descriptor>
+                            </descriptors>
+                            <features>
+                                <feature>fsto-all-demo</feature>
+                            </features>
+                            <repository>target/features-repo</repository>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 
     </build>
 

@@ -1,13 +1,26 @@
-<features name="fsto" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<features name="fsto"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" 
+    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0 http://karaf.apache.org/xmlns/features/v1.4.0">
+
+    <repository>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</repository>
 
     <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
     <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
     <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
 
     <feature name="fsto-deps" version="${project.version}">
+        <configfile finalname="/etc/users.properties" override="true">mvn:com.savoirtech/feature/1.0.0/cfg/config</configfile>
+        <configfile finalname="/etc/custom.system.properties" override="true">mvn:com.savoirtech/feature/1.0.0/cfg/config-sys</configfile>
+        
+        <feature version="[4,5)">spring</feature>
+        <feature>aries-blueprint</feature>
         <feature version="${camel.version}">camel-blueprint</feature>
         <feature version="${camel.version}">camel-jackson</feature>
         <feature version="${camel.version}">camel-cxf</feature>
+        <feature version="${camel.version}">camel-jaxb</feature>
         <feature version="${cxf.version}">cxf</feature>
         <feature version="${activemq.version}">activemq-broker-noweb</feature>
         <feature version="${activemq.version}">activemq-camel</feature>
@@ -19,7 +32,7 @@
         <bundle>mvn:com.savoirtech/backEndRoutes/${project.version}</bundle>
     </feature>
 
-    <feature name="fsto-all-demo" version=${project.version}">
+    <feature name="fsto-all-demo" version="${project.version}">
         <feature version="${project.version}">fsto-deps</feature>
         <feature version="${project.version}">fsto-application</feature>
     </feature>
